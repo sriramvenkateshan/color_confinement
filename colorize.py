@@ -10,7 +10,8 @@ import time
 import datetime
 
 # Add imports here for all implemented classes
-import cpucolorizers
+import purepython
+import directcython
 
 def colorspace(colorspace_name):
     colors = []
@@ -28,7 +29,7 @@ if __name__ == "__main__":
         "only"          : "*.jpg",          # All images under images/
         "output"        : "output",         # Output dir
         "colorspace"    : "blackwhite",
-        "algo"          : "vanilla.Loopall", # Plain cpu Loopall class
+        "algo"          : "purepython.vanilla", # Plain cpu Loopall class
         "perf_file"     : "performance_metrics.txt"
     }
     data.update(json.loads(open(cfg, "r").read()))

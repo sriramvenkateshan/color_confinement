@@ -1,5 +1,5 @@
 {
     "only"       : "boat*",
-    "algo"       : "purepython.vanilla",
+    "algo"       : "directcython.vanilla",
     "colorspace" : "css*"
 }

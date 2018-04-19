@@ -1,5 +1,5 @@
 {
     "only"       : "boat*",
-    "algo"       : "pythonpure.optimized",
+    "algo"       : "purepython.optimized",
     "colorspace" : "css*"
 }
