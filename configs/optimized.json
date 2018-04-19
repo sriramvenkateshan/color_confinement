@@ -1,5 +1,5 @@
 {
-    "only"       : "colin*",
-    "algo"       : "optimized.Loopall",
+    "only"       : "boat*",
+    "algo"       : "pythonpure.optimized",
     "colorspace" : "css*"
 }

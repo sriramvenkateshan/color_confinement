@@ -1,0 +1,5 @@
+Run started on 04-19 05:36
+Colorized 720x1280 image boat_1280_720.jpg into css4 colorspace in 121.73801589012146 s
+Colorized 720x1280 image boat_1280_720.jpg into css3 colorspace in 122.00060248374939 s
+Colorized 720x1280 image boat_1280_720.jpg into css1 colorspace in 17.867717266082764 s
+Colorized 720x1280 image boat_1280_720.jpg into css2 colorspace in 18.51072597503662 s
