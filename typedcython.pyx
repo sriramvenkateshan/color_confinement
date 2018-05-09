@@ -2,9 +2,6 @@ import numpy as np
 cimport numpy as np
 cimport cython
 
-@cython.boundscheck(False)
-@cython.wraparound(False)
-
 # Types for all scalar elements
 DTYPE = np.int
 ctypedef np.int_t DTYPE_t 
@@ -19,6 +16,8 @@ cpdef DTYPE_t __dist(np.ndarray a, np.ndarray b):
     cdef int v = np.dot(d,d)
     return v
 
+@cython.boundscheck(False)
+@cython.wraparound(False)
 def optimized(np.ndarray[DTYPE_t,ndim=3] img, np.ndarray[DTYPE_t,ndim=2] colors):
     img = img[:,:,0:3]
     cdef int w = img.shape[0]
@@ -35,7 +34,7 @@ def optimized(np.ndarray[DTYPE_t,ndim=3] img, np.ndarray[DTYPE_t,ndim=2] colors)
     out = np.zeros([w,h,c], dtype=DTYPE)
 
     for x in range(w):
-        for y in range(w):
+        for y in range(h):
             D = D_max
             nearest = 0
             for color in range(n):
