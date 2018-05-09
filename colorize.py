@@ -12,6 +12,7 @@ import datetime
 # Add imports here for all implemented classes
 import purepython
 import directcython
+import typedcython
 
 def colorspace(colorspace_name):
     colors = []

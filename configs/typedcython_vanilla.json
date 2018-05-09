@@ -1,0 +1,5 @@
+{
+    "only"       : "boat*",
+    "algo"       : "typedcython.vanilla",
+    "colorspace" : "css*"
+}
