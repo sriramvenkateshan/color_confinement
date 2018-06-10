@@ -1,0 +1,6 @@
+{
+    "only"       : "*",
+    "dataset"    : "smallimages",
+    "algo"       : "memoryviewcython.extern_optimized",
+    "colorspace" : "*"
+}

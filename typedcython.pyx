@@ -18,6 +18,7 @@ cpdef DTYPE_t __dist(np.ndarray a, np.ndarray b):
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
+@cython.profile(True)
 def optimized(np.ndarray[DTYPE_t,ndim=3] img, np.ndarray[DTYPE_t,ndim=2] colors):
     img = img[:,:,0:3]
     cdef int w = img.shape[0]
@@ -26,7 +27,7 @@ def optimized(np.ndarray[DTYPE_t,ndim=3] img, np.ndarray[DTYPE_t,ndim=2] colors)
     cdef int n = colors.shape[0]
     cdef DTYPE_t d, D, D_max
     cdef np.ndarray[DTYPE_t,ndim=3] out
-    cdef np.ndarray[DTYPE_t,ndim=1] delta
+    cdef DTYPE_t d0, d1, d2
     cdef int x, y
     cdef int nearest
 
@@ -38,8 +39,10 @@ def optimized(np.ndarray[DTYPE_t,ndim=3] img, np.ndarray[DTYPE_t,ndim=2] colors)
             D = D_max
             nearest = 0
             for color in range(n):
-                delta = img[x,y] - colors[color]
-                d = np.dot(delta, delta)
+                d0 = img[x,y,0] - colors[color,0]
+                d1 = img[x,y,1] - colors[color,1]
+                d2 = img[x,y,2] - colors[color,2]
+                d = d0*d0 + d1*d1 + d2*d2
                 if d < D:
                     D = d
                     nearest = color

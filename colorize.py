@@ -8,11 +8,16 @@ import sys
 import csv
 import time
 import datetime
+import pstats, cProfile
+
+import pyximport
+pyximport.install()
 
 # Add imports here for all implemented classes
 import purepython
 import directcython
 import typedcython
+import memoryviewcython
 
 def colorspace(colorspace_name):
     colors = []
@@ -31,7 +36,8 @@ if __name__ == "__main__":
         "output"        : "output",         # Output dir
         "colorspace"    : "blackwhite",
         "algo"          : "purepython.vanilla", # Plain cpu Loopall class
-        "perf_file"     : "performance_metrics.txt"
+        "perf_file"     : "performance_metrics.txt", 
+        "profile"       : False
     }
     data.update(json.loads(open(cfg, "r").read()))
     perf_file = open(data["perf_file"], "w")
@@ -56,17 +62,22 @@ if __name__ == "__main__":
         for c in colorspaces:
             cname = os.path.splitext(os.path.basename(c))[0]
             # print( "Using colorspace {} ...".format(cname))
-            out_img_path = os.path.join(data["output"], cname + "_" + os.path.basename(img_path))
-            start = time.time()
-            out_img = colorizer(img, colorspace(c))
-            end = time.time()
-            perf_file.write( "Colorized {}x{} image {} into {} colorspace in {} s\n".format(
-                    w, h, os.path.basename(img_path), cname, end-start))
-            perf_file.flush()
-            print( "Colorized {}x{} image {} into {} colorspace in {} s".format(
-                    w, h, os.path.basename(img_path), cname, end-start))
-            # print("")
-            imsave(out_img_path, out_img)
+            if data["profile"]:
+                cProfile.runctx("out_img = colorizer(img, colorspace(c))", globals(), locals(), "Profile.prof")
+                s = pstats.Stats("Profile.prof")
+                s.strip_dirs().sort_stats("time").print_stats()
+            else:
+                out_img_path = os.path.join(data["output"], cname + "_" + os.path.basename(img_path))
+                start = time.time()
+                out_img = colorizer(img, colorspace(c))
+                end = time.time()
+                perf_file.write( "Colorized {}x{} image {} into {} colorspace in {} s\n".format(
+                        w, h, os.path.basename(img_path), cname, end-start))
+                perf_file.flush()
+                print( "Colorized {}x{} image {} into {} colorspace in {} s".format(
+                        w, h, os.path.basename(img_path), cname, end-start))
+                # print("")
+                imsave(out_img_path, out_img)
         # print("-----")
     perf_file.close()
 

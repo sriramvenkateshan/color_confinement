@@ -11,12 +11,25 @@ def __dist(a, b):
 def optimized(img, colors):
     img = img[:,:,0:3]
     w, h, c = img.shape
-    p = w*h
-    img = img.reshape((p, c))
-    for x in range(0, p):
-        img[x] = __nearest(img[x], colors)
-    img = img.reshape((w, h, c))
-    return img
+    n = colors.shape[0]
+
+    D_max = 255*255
+    out = np.zeros([w,h,c]).astype(np.int)
+
+    for x in range(w):
+        for y in range(h):
+            D = D_max
+            nearest = 0
+            for color in range(n):
+                d0 = img[x,y,0] - colors[color,0]
+                d1 = img[x,y,1] - colors[color,1]
+                d2 = img[x,y,2] - colors[color,2]
+                d = d0*d0 + d1*d1 + d2*d2
+                if d < D:
+                    D = d
+                    nearest = color
+                out[x,y,:] = colors[nearest]
+    return out
 
 def vanilla(img, colors):
     img = img[:,:,0:3]
